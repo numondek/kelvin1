@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CreateProfile extends StatelessWidget {
-  CreateProfile({Key? key}) : super(key: key);
+  CreateProfile({Key? key, this.state}) : super(key: key);
+
+  dynamic state;
 
   final formKey = GlobalKey<FormState>();
 
@@ -16,7 +18,6 @@ class CreateProfile extends StatelessWidget {
     String? number;
     String? firstname;
     String? lastname;
-    String? gender;
     String? location;
 
     TextEditingController _controller =
@@ -26,7 +27,9 @@ class CreateProfile extends StatelessWidget {
     TextEditingController _controller2 = TextEditingController(text: '$number');
     TextEditingController _controller3 =
         TextEditingController(text: '$location');
-    dropdownValue = '$gender';
+    TextEditingController _controller4 =
+    TextEditingController(text: '');
+    dropdownValue = 'Male';
 
     return SafeArea(
       child: BlocProvider(
@@ -90,7 +93,7 @@ class CreateProfile extends StatelessWidget {
                           height: 20,
                         ),
                         TextFormField(
-                          controller: _controller,
+                          controller: _controller != null ? _controller4 :_controller1,
                           decoration:  buildInputDecoration(
                             hintText: 'firstname',
                             icon: const Icon(Icons.person, color: Color(0xff12122a)),
@@ -112,7 +115,7 @@ class CreateProfile extends StatelessWidget {
                         ),
                         const SizedBox(height: 40),
                         TextFormField(
-                          controller: _controller1,
+                          controller: _controller1 != null ? _controller4 :_controller1,
                           decoration: buildInputDecoration(
                             hintText: 'lastname',
                             icon: const Icon(Icons.person, color: Color(0xff12122a)),
@@ -134,7 +137,7 @@ class CreateProfile extends StatelessWidget {
                         ),
                         const SizedBox(height: 40),
                         TextFormField(
-                          controller: _controller2,
+                          controller: _controller2 != null ? _controller4 :_controller1,
                           decoration: buildInputDecoration(
                             hintText: '080300000396',
                             icon: const Icon(Icons.phone, color: Color(0xff12122a)),
@@ -173,7 +176,6 @@ class CreateProfile extends StatelessWidget {
                             isExpanded: true,
                             alignment: AlignmentDirectional.centerStart,
                             onChanged: (String? newValue) {
-                              gender = newValue;
                             },
                             validator: (value) =>
                                 value == null ? 'field required' : null,
@@ -191,7 +193,7 @@ class CreateProfile extends StatelessWidget {
                         ),
                         const SizedBox(height: 40),
                         TextFormField(
-                          controller: _controller3,
+                          controller: _controller3 != null ? _controller4 :_controller1,
                           decoration: buildInputDecoration(
                             hintText: 'location',
                             icon: const Icon(Icons.map, color: Color(0xff12122a)),
