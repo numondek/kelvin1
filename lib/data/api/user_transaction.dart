@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:d8er1/data/model/user_info.dart';
+import 'package:d8er1/data/model/user_transaction.dart';
 import 'package:http/http.dart' as http;
 
 class UserTransactions{
@@ -15,7 +15,7 @@ class UserTransactions{
       if (response.statusCode == 200) {
         var jsonData = jsonDecode(response.body);
         print(jsonData);
-        return UserTransactions.fromJson(jsonData);
+        return UserTransaction.fromJson(jsonData);
       }else if (response.statusCode == 404) {
         var jsonData = jsonDecode(response.body);
         print(jsonData);
@@ -24,7 +24,7 @@ class UserTransactions{
       }
     } catch (e) {
       final data = e.toString().substring(11);
-      return UserDetail.withError(data);
+      return UserTransaction.withError(data);
     }
   }
 }
