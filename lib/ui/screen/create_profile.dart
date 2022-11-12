@@ -1,4 +1,6 @@
 import 'package:d8er1/logic/create_profile/create_profile_bloc.dart';
+import 'package:d8er1/ui/componet/buttonWidget.dart';
+import 'package:d8er1/ui/utills/input_deco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,13 +44,6 @@ class CreateProfile extends StatelessWidget {
             listener: (context, state) async {
               // String token = '';
               if (state is CreateProfileLoaded) {
-                // token = state.user.token.toString();
-                // final data = await BlocProvider
-                //     .of<UserInfoBloc>(context)
-                //     .loginRepository
-                //     .userInfo
-                //     .fetchData(token: token);
-                // context.read<UserInfoBloc>().emit(UserInfoLoaded(data));
 
                 Navigator.of(context).pushNamed("/Profile");
               } else if (state is Error) {
@@ -95,31 +90,17 @@ class CreateProfile extends StatelessWidget {
                           height: 20,
                         ),
                         TextFormField(
-                          decoration: const InputDecoration(
+                          controller: _controller,
+                          decoration:  buildInputDecoration(
                             hintText: 'firstname',
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff3f4961), width: 2.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff12122a), width: 2.0),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff12122a),
-                                  width: 2.0,
-                                  style: BorderStyle.solid),
-                            ),
-                            hintStyle: TextStyle(color: Color(0xff12122a)),
-                            prefixIcon:
-                                Icon(Icons.person, color: Color(0xff12122a)),
+                            icon: const Icon(Icons.person, color: Color(0xff12122a)),
                           ),
                           // this acts as validating the values of the form
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please fill this field';
                             }
+                            return null;
                           },
                           onSaved: (value) {
                             firstname = value;
@@ -131,31 +112,17 @@ class CreateProfile extends StatelessWidget {
                         ),
                         const SizedBox(height: 40),
                         TextFormField(
-                          decoration: const InputDecoration(
+                          controller: _controller1,
+                          decoration: buildInputDecoration(
                             hintText: 'lastname',
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff3f4961), width: 2.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff12122a), width: 2.0),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff12122a),
-                                  width: 2.0,
-                                  style: BorderStyle.solid),
-                            ),
-                            hintStyle: TextStyle(color: Color(0xff12122a)),
-                            prefixIcon:
-                                Icon(Icons.person, color: Color(0xff12122a)),
+                            icon: const Icon(Icons.person, color: Color(0xff12122a)),
                           ),
                           // this acts as validating the values of the form
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please fill this field';
                             }
+                            return null;
                           },
                           onSaved: (value) {
                             lastname = value;
@@ -167,31 +134,17 @@ class CreateProfile extends StatelessWidget {
                         ),
                         const SizedBox(height: 40),
                         TextFormField(
-                          decoration: const InputDecoration(
+                          controller: _controller2,
+                          decoration: buildInputDecoration(
                             hintText: '080300000396',
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff3f4961), width: 2.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff12122a), width: 2.0),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff12122a),
-                                  width: 2.0,
-                                  style: BorderStyle.solid),
-                            ),
-                            hintStyle: TextStyle(color: Color(0xff12122a)),
-                            prefixIcon:
-                                Icon(Icons.phone, color: Color(0xff12122a)),
+                            icon: const Icon(Icons.phone, color: Color(0xff12122a)),
                           ),
                           // this acts as validating the values of the form
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please fill this field';
                             }
+                            return null;
                           },
                           onSaved: (value) {
                             number = value;
@@ -207,23 +160,8 @@ class CreateProfile extends StatelessWidget {
                         const SizedBox(height: 40),
                         DropdownButtonHideUnderline(
                           child: DropdownButtonFormField<String>(
-                            decoration: const InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color(0xff3f4961), width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color(0xff12122a), width: 2.0),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color(0xff12122a),
-                                    width: 2.0,
-                                    style: BorderStyle.solid),
-                              ),
-                              prefixIcon:
-                                  Icon(Icons.male, color: Color(0xff12122a)),
+                            decoration: buildInputDecoration(
+                              icon: const Icon(Icons.male, color: Color(0xff12122a)),
                             ),
                             value: dropdownValue,
                             elevation: 16,
@@ -245,39 +183,25 @@ class CreateProfile extends StatelessWidget {
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Text(value),
                                 alignment: AlignmentDirectional.centerStart,
+                                child: Text(value),
                               );
                             }).toList(),
                           ),
                         ),
                         const SizedBox(height: 40),
                         TextFormField(
-                          decoration: const InputDecoration(
+                          controller: _controller3,
+                          decoration: buildInputDecoration(
                             hintText: 'location',
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff3f4961), width: 2.0),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff12122a), width: 2.0),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xff12122a),
-                                  width: 2.0,
-                                  style: BorderStyle.solid),
-                            ),
-                            hintStyle: TextStyle(color: Color(0xff12122a)),
-                            prefixIcon:
-                                Icon(Icons.map, color: Color(0xff12122a)),
+                            icon: const Icon(Icons.map, color: Color(0xff12122a)),
                           ),
                           // this acts as validating the values of the form
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please fill this field';
                             }
+                            return null;
                           },
                           onSaved: (value) {
                             location = value;
@@ -288,27 +212,11 @@ class CreateProfile extends StatelessWidget {
                           textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(height: 60),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(580, 55),
-                            primary: const Color(0xff12122a),
-                            side: const BorderSide(),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(6)),
-                            ),
-                          ),
-                          onPressed: () {},
-
-                          child: const Text(
-                            'submit',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17,
-                            ),
-                          ),
-                          // this is the styling for the button
+                        Button(
+                          text: 'submit',
+                          onPressed: (){},
                         ),
+
                         const SizedBox(height: 30),
                       ],
                     ),
