@@ -34,7 +34,7 @@ class AppRoute {
       case"/Signup":
         return MaterialPageRoute(builder: (_) => SignUp());
       case"/Home":
-        return MaterialPageRoute(builder: (_) => const Home());
+        return MaterialPageRoute(builder: (_) =>  Home());
       case"/Profile":
         return MaterialPageRoute(builder: (_) => CreateProfile());
       case"/Dashboard":

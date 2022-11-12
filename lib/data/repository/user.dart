@@ -8,6 +8,7 @@ import 'package:d8er1/data/api/login.dart';
 
 import 'package:d8er1/data/api/signup.dart';
 import 'package:d8er1/data/api/user_info.dart';
+import 'package:d8er1/data/api/user_transaction.dart';
 
 
 
@@ -16,6 +17,7 @@ class UserRepository {
   final loginLogic = LoginLogic();
   final userInfo = UserInfo_api();
   final createProfile = CreateProfile();
+  final userTransactions = UserTransactions();
 
 
 
@@ -33,6 +35,10 @@ class UserRepository {
   }
   create(){
     return createProfile.create();
+  }
+
+  fetchTransaction(){
+    return userTransactions.fetchTransaction();
   }
 
 }
