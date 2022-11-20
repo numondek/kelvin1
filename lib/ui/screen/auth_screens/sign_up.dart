@@ -1,3 +1,4 @@
+import 'package:d8er1/logic/cubit/password_vissible_cubit.dart';
 import 'package:d8er1/logic/signup+/sign_up_bloc.dart';
 import 'package:d8er1/ui/componet/buttonWidget.dart';
 import 'package:d8er1/ui/utills/input_deco.dart';
@@ -9,15 +10,14 @@ class SignUp extends StatelessWidget {
 
   final formKey = GlobalKey<FormState>();
 
-  String? password1 ;
+  String? password1;
   String? email;
-  String? username ;
+  String? username;
   String? _password;
 
   @override
   Widget build(BuildContext context) {
-    bool isPasswordVisible = true;
-    bool isPasswordVisible1 = true;
+
     return BlocProvider(
         create: (context) => SignUpBloc(),
         child: SafeArea(
@@ -117,71 +117,84 @@ class SignUp extends StatelessWidget {
                                 textInputAction: TextInputAction.next,
                               ),
                               const SizedBox(height: 40),
-                              TextFormField(
-                                decoration: buildInputDecoration(
-                                    hintText: '***********',
-                                    icon: const Icon(
-                                      Icons.lock,
-                                      color: Color(0xff12122a),
-                                    ),
-                                    suffixIcon: IconButton(
-                                        icon: isPasswordVisible
-                                            ? const Icon(Icons.visibility_off)
-                                            : const Icon(Icons.visibility),
-                                        onPressed: () => isPasswordVisible =
-                                            !isPasswordVisible)),
+                              BlocBuilder<PasswordVissibleCubit,
+                                  PasswordVissibleState>(
+                                builder: (context, state) {
+                                  return TextFormField(
+                                    decoration: buildInputDecoration(
+                                        hintText: '***********',
+                                        icon: const Icon(
+                                          Icons.lock,
+                                          color: Color(0xff12122a),
+                                        ),
+                                        suffixIcon: IconButton(
+                                            icon: state.isPasswordVisible1 as bool
+                                                ? const Icon(
+                                                Icons.visibility_off)
+                                                : const Icon(Icons.visibility),
+                                            onPressed: () {
+                                              BlocProvider.of<PasswordVissibleCubit>(context).passwordVissible1();
+                                            })),
 
-                                obscureText: isPasswordVisible,
-                                // to hide the text of this field
-                                validator: (value) {
-                                  if (value!.length < 6) {
-                                    return 'Password is less than 6';
-                                  }
-                                  if (password1 != _password) {
-                                    return 'Password mismatch';
-                                  }
-                                  return null;
+                                    obscureText: state.isPasswordVisible1 as bool,
+                                    // to hide the text of this field
+                                    validator: (value) {
+                                      if (value!.length < 6) {
+                                        return 'Password is less than 6';
+                                      }
+                                      if (password1 != _password) {
+                                        return 'Password mismatch';
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (value) {
+                                      _password = value!;
+                                      print('$_password $password1 kklk');
+                                    },
+                                    keyboardType: TextInputType.text,
+                                    textInputAction: TextInputAction.done,
+                                  );
                                 },
-                                onSaved: (value) {
-                                  _password = value!;
-                                  print('$_password $password1 kklk');
-                                },
-                                keyboardType: TextInputType.text,
-                                textInputAction: TextInputAction.done,
                               ),
                               const SizedBox(height: 40),
-                              TextFormField(
-                                decoration: buildInputDecoration(
-                                  hintText: 'password',
-                                  icon: const Icon(
-                                      Icons.lock,
-                                      color: Color(0xff12122a)),
-                                  suffixIcon: IconButton(
-                                      icon: isPasswordVisible
-                                          ? const Icon(Icons.visibility_off)
-                                          : const Icon(Icons.visibility),
-                                      onPressed: () => isPasswordVisible1 = !isPasswordVisible1)),
-                                obscureText: isPasswordVisible1,
-                                // to hide the text of this field
-                                validator: (value) {
-                                  if (value!.length < 6) {
-                                    return 'Password is less than 6';
-                                  }
-                                  if (password1 != _password) {
-                                    return 'Password mismatch';
-                                  }
-                                  return null;
+                              BlocBuilder<PasswordVissibleCubit, PasswordVissibleState>(
+                                builder: (context, state) {
+                                  return TextFormField(
+                                    decoration: buildInputDecoration(
+                                        hintText: 'password',
+                                        icon: const Icon(Icons.lock,
+                                            color: Color(0xff12122a)),
+                                        suffixIcon: IconButton(
+                                            icon: state.isPasswordVisible2 as bool
+                                                ? const Icon(
+                                                Icons.visibility_off)
+                                                : const Icon(Icons.visibility),
+                                            onPressed: () {
+                                              BlocProvider.of<PasswordVissibleCubit>(context).passwordVissible2();
+                                            })),
+                                    obscureText: state.isPasswordVisible2 as bool,
+                                    // to hide the text of this field
+                                    validator: (value) {
+                                      if (value!.length < 6) {
+                                        return 'Password is less than 6';
+                                      }
+                                      if (password1 != _password) {
+                                        return 'Password mismatch';
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (value) {
+                                      password1 = value!;
+                                    },
+                                    keyboardType: TextInputType.text,
+                                    textInputAction: TextInputAction.next,
+                                  );
                                 },
-                                onSaved: (value) {
-                                  password1 = value!;
-                                },
-                                keyboardType: TextInputType.text,
-                                textInputAction: TextInputAction.next,
                               ),
                               const SizedBox(height: 60),
                               //
                               Button(
-                                onPressed:() {
+                                onPressed: () {
                                   var key = formKey.currentState;
                                   if (key!.validate()) {
                                     key.save();
@@ -192,7 +205,7 @@ class SignUp extends StatelessWidget {
                                             username: username,
                                             password: _password));
                                   }
-                                } ,
+                                },
                                 text: 'signup',
                               ),
                               const SizedBox(height: 30),

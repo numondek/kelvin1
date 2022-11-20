@@ -1,7 +1,7 @@
 class UserTransaction {
   String? username;
-  String? dataAmount;
-  int? transactionId;
+  int? dataAmount;
+  String? transactionId;
   bool? credit;
   bool? toWallet;
   DateTime? dateTime;
@@ -23,31 +23,28 @@ class UserTransaction {
     error = errorMessage;
   }
 
-  UserTransaction.fromJson(Map<String, dynamic> json,) {
-
+  UserTransaction.fromJson( Map<String, dynamic> json,) {
     error = json['detail'];
-    username = json['First_Name'] ??= '';
-    transactionId = json['Last_Name'] ??= '';
-    credit = json['Gender'] ??= '';
-    dataAmount = json['City'] ??= '';
-    toWallet = json['Phone_number'] ??= '';
-    receivedFrom = json['Data_balance'];
-    sentTo = json['Mobile_network'];
-    dateTime = json['Mobile_network'];
-
+    username = json['user'] ??= '';
+    transactionId = json['TransactionID'] ??= '';
+    credit = json['Credit'] ??= '';
+    dataAmount = json['Data_amount'] ??= '';
+    toWallet = json['To_wallet'] ??= '';
+    receivedFrom = json['Received_From'];
+    sentTo = json['Sent_To'];
+    dateTime = DateTime.parse(json['Timestamp']);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['First_Name'] = username;
-    data['Last_Name'] = transactionId;
-    data['Gender'] = credit;
-    data['City'] = dataAmount;
-    data['Phone_number'] = toWallet;
-    data['Data_balance'] = receivedFrom;
-    data['Mobile_network'] = sentTo;
-    data['Mobile_network'] = dateTime;
-
+    data['user'] = username;
+    data['TransactionID'] = transactionId;
+    data['Credit'] = credit;
+    data['Data_amount'] = dataAmount;
+    data['To_wallet'] = toWallet;
+    data['Received_From'] = receivedFrom;
+    data['Sent_To'] = sentTo;
+    // data['Timestamp'] = dateTime;
 
     return data;
   }

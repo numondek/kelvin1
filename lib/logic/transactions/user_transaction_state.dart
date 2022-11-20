@@ -9,16 +9,24 @@ class UserTransactionInitial extends UserTransactionState {
   List<Object> get props => [];
 }
 
-class UserTransactionLoadingState extends UserTransactionEvent{
+class UserTransactionLoadingState extends UserTransactionState{
   @override
   List<Object?> get props => [];
 
 }
 
 class UserTransactionLoaded extends UserTransactionState {
-  final UserTransaction userTransaction;
-  const UserTransactionLoaded(this.userTransaction);
+  UserTransactionLoaded( this.data);
+  final List<UserTransaction> data;
   @override
-  List<Object> get props => [];
+  List<Object> get props => [data];
+}
+
+
+class UserErrorState extends UserTransactionState {
+  UserErrorState( this.data);
+  final String data;
+  @override
+  List<Object> get props => [data];
 }
 

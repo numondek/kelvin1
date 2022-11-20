@@ -11,20 +11,20 @@ class UserTransactions{
     var response = await http.get(url,
       headers: {"Authorization": "Bearer $token"},
     );
-    try {
+
       if (response.statusCode == 200) {
-        var jsonData = jsonDecode(response.body);
+        final List jsonData = jsonDecode(response.body);
         print(jsonData);
-        return UserTransaction.fromJson(jsonData);
+        return jsonData.map((e) => UserTransaction.fromJson(e)).toList();
       }else if (response.statusCode == 404) {
         var jsonData = jsonDecode(response.body);
         print(jsonData);
         String er = jsonData['message'];
         throw Exception(er);
       }
-    } catch (e) {
-      final data = e.toString().substring(11);
-      return UserTransaction.withError(data);
-    }
+    // } catch (e) {
+    //   final data = e.toString().substring(11);
+    //   // return UserTransaction.withError(data);
+    // }
   }
 }

@@ -1,5 +1,8 @@
+
+import 'package:d8er1/logic/cubit/password_vissible_cubit.dart';
 import 'package:d8er1/logic/login_bloc.dart';
 import 'package:d8er1/ui/componet/buttonWidget.dart';
+import 'package:d8er1/ui/screen/auth_screens/forgot_password.dart';
 import 'package:d8er1/ui/utills/input_deco.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,8 +15,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isPasswordVisible = true;
-    bool isPasswordVisible1 = true;
+
     String username = '';
     String password = '';
     return Scaffold(
@@ -27,14 +29,14 @@ class Login extends StatelessWidget {
         ),
         body: BlocConsumer<LoginBloc, LoginState>(
             listener: (newcontext, state) async {
-          // String token = '';
-          if (state is LoginLoaded) {
-            Navigator.of(context).pushNamed("/Dashboard");
-          } else if (state is LoginError) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(state.message!)));
-          }
-        }, builder: (context, state) {
+              // String token = '';
+              if (state is LoginLoaded) {
+                Navigator.of(context).pushNamed("/Tab");
+              } else if (state is LoginError) {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(state.message!)));
+              }
+            }, builder: (context, state) {
           if (state is LoginLoading) {
             return Container(
                 color: Colors.transparent,
@@ -86,7 +88,7 @@ class Login extends StatelessWidget {
                         return null;
                       },
                       onSaved: (value) {
-                        username = value!;
+                        username = value!.trim();
                         print(value);
                       },
 
@@ -96,30 +98,37 @@ class Login extends StatelessWidget {
 
                     const SizedBox(height: 40),
 
-                    TextFormField(
-                      decoration: buildInputDecoration(
-                          hintText: 'password',
-                          icon:
-                              const Icon(Icons.lock, color: Color(0xff12122a)),
-                          suffixIcon: IconButton(
-                              icon: isPasswordVisible
-                                  ? const Icon(Icons.visibility_off)
-                                  : const Icon(Icons.visibility),
-                              onPressed: () =>
-                                  isPasswordVisible1 = !isPasswordVisible1)),
-                      // obscureText: isPasswordVisible, // to hide the text of this field
-                      validator: (value) {
-                        if (value!.length < 6) {
-                          return 'Password is less than 6';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        password = value!;
-                      },
+                    BlocBuilder<PasswordVissibleCubit, PasswordVissibleState>(
+                      builder: (context, state) {
+                          return TextFormField(
+                            decoration: buildInputDecoration(
+                                hintText: 'password',
+                                icon:
+                                const Icon(
+                                    Icons.lock, color: Color(0xff12122a)),
+                                suffixIcon: IconButton(
+                                    icon: state.isPasswordVisible as bool
+                                        ? const Icon(Icons.visibility_off)
+                                        : const Icon(Icons.visibility),
+                                    onPressed: (){
+                                      BlocProvider.of<PasswordVissibleCubit>(context).passwordVissible();
+                                    } )),
+                            obscureText: state.isPasswordVisible as bool, // to hide the text of this field
+                            validator: (value) {
+                              if (value!.length < 6) {
+                                return 'Password is less than 6';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              password = value!;
+                            },
 
-                      keyboardType: TextInputType.text,
-                      textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.text,
+                            textInputAction: TextInputAction.done,
+                          );
+
+                      },
                     ),
                     const SizedBox(height: 60),
 
@@ -156,20 +165,21 @@ class Login extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // const SizedBox(height: 10),
-                    // InkWell(
-                    //   onTap: () => setState(() {
-                    //     _launched = _launchInWebViewOrVC(toLaunch);
-                    //   }),
-                    //   child: Text(
-                    //     "Forgot Password?",
-                    //     style: TextStyle(
-                    //       color: Colors.blue[900],
-                    //       fontSize: 15,
-                    //
-                    //     ),
-                    //   ),
-                    // ),
+                    const SizedBox(height: 10),
+
+                    InkWell(
+                      onTap: ()  {
+                       Navigator.push(context, MaterialPageRoute(builder: (context)=>  const ForgotPassword(),fullscreenDialog: true));
+                      },
+                      child: Text(
+                        "Forgot Password?",
+                        style: TextStyle(
+                          color: Colors.blue[900],
+                          fontSize: 15,
+
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
    // final icon = Icon(Icons.person, color: Color(0xff12122a));
   return  InputDecoration(
     hintText: ht,
+    label: Text(ht!),
+    labelStyle: const TextStyle(color: Color(0xff12122a)),
     hintStyle: const TextStyle(color: Color(0xff12122a)),
     focusedBorder: const OutlineInputBorder(
       borderSide: BorderSide(
@@ -30,4 +32,12 @@ import 'package:flutter/material.dart';
 }
 
 
-
+ buildAppBar() {
+  return AppBar(
+    backgroundColor: Colors.white,
+    elevation: 0.0,
+    foregroundColor: const Color(0xff12122a),
+    shadowColor: Colors.white,
+    centerTitle: true,
+  );
+}

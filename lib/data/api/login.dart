@@ -51,7 +51,7 @@ class LoginLogic{
       }
 
       final data = error.toString().substring(11);
-      return User.withError("$data");
+      return User.withError(data);
     }
   }
 }

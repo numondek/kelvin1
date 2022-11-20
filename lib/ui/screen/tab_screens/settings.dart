@@ -1,28 +1,21 @@
 import 'package:d8er1/logic/user_info/user_info_bloc.dart';
 import 'package:d8er1/ui/componet/buttonWidget.dart';
+import 'package:d8er1/ui/screen/settings_screens/create_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
-class Dashborad extends StatelessWidget {
-  const Dashborad({Key? key}) : super(key: key);
+class Settings extends StatelessWidget {
+  const Settings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          foregroundColor: const Color(0xff12122a),
-          shadowColor: Colors.white,
-          centerTitle: true,
-        ),
         body: BlocProvider(
           create: (context) => UserInfoBloc()..add(UserInfoLoadingEvent()),
           child: BlocBuilder<UserInfoBloc, UserInfoState>(
             builder: (context, state) {
-
               if (state is UserInfoLoaded) {
                 return SingleChildScrollView(
                   child: Container(
@@ -74,41 +67,16 @@ class Dashborad extends StatelessWidget {
                             height: 30,
                           ),
                           Button(
-                            text: 'Edit',
-                            onPressed: () {
-                              Navigator.pushNamed(context, "/Profile", arguments: "edit");
-                            },
-                          ),
-                          // ElevatedButton(
-                          //   style: ElevatedButton.styleFrom(
-                          //     minimumSize: const Size(580, 55),
-                          //     primary: const Color(0xff12122a),
-                          //     side: const BorderSide(),
-                          //     shape: const RoundedRectangleBorder(
-                          //       borderRadius:
-                          //       BorderRadius.all(Radius.circular(6)),
-                          //     ),
-                          //   ),
-                          //   onPressed: () {
-                          //     // Navigator.of(context).push(MaterialPageRoute(
-                          //     //   builder: (context) => const Edit(),
-                          //     // ));
-                          //   },
-                          //
-                          //   child: const Text(
-                          //     'Edit',
-                          //     style: TextStyle(
-                          //       color: Colors.white,
-                          //       fontSize: 17,
-                          //     ),
-                          //   ),
-                          //   // this is the styling for the button
-                          // ),
-                          // Divider(
-                          //   thickness: 0.8,
-                          //   height: 2,
-                          //   color: Color(0xff12122a),
-                          // ),
+                              text: 'Edit',
+                              onPressed: () {
+                                // Navigator.pushNamed(context, "/Profile",
+                                //     arguments: "edit");
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => BlocProvider.value(
+                                          value: UserInfoBloc(),
+                                          child: CreateProfile(),
+                                        )));
+                              }),
                           const SizedBox(
                             height: 40,
                           ),
@@ -148,10 +116,7 @@ class Dashborad extends StatelessWidget {
                               width: 20,
                             ),
                             SizedBox(
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.5,
+                              width: MediaQuery.of(context).size.width * 0.5,
                               child: FittedBox(
                                 child: AutoSizeText(
                                   state.userDetail.firstname.toString(),
@@ -239,8 +204,6 @@ class Dashborad extends StatelessWidget {
               return Container();
             },
           ),
-        )
-
-    );
+        ));
   }
 }

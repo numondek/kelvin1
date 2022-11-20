@@ -1,10 +1,8 @@
-import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:d8er1/data/model/user_transaction.dart';
 import 'package:d8er1/data/repository/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:d8er1/logic/transactions/user_transaction_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'user_transaction_event.dart';
@@ -16,6 +14,7 @@ class UserTransactionBloc extends Bloc<UserTransactionEvent, UserTransactionStat
 
   UserTransactionBloc() : super(UserTransactionInitial()) {
     on<UserTransactionLoading>((event, emit) async {
+      emit(UserTransactionLoadingState());
       String? token ;
       SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -23,11 +22,19 @@ class UserTransactionBloc extends Bloc<UserTransactionEvent, UserTransactionStat
 
 
       print(token);
-
       final data = await userRepository
           .userTransactions
           .fetchTransaction(token: token);
-      emit(UserTransactionLoaded(data));
+
+      try{
+
+        print('token');
+        emit(UserTransactionLoaded(data));
+      } catch(e){
+        print('tokenkjbjk');
+        emit(UserErrorState(e.toString()));
+        emit(UserTransactionLoaded(data));
+      }
 
     });
   }
